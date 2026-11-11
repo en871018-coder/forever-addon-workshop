@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Forever 插件工坊</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="#" id="brand"><span class="brand-mark">F<span>✦</span></span><span>FOREVER<span class="brand-sub">插件工坊</span></span></a>
+    <div class="workspace-label">你的游戏空间</div>
+    <div class="game-tile"><div class="game-emblem">W</div><div><strong>魔兽世界 · 无限</strong><small>World of Warcraft: Forever</small></div><span class="live-dot"></span></div>
+    <nav aria-label="主导航">
+      <button class="nav-item active" data-page="installed"><span class="nav-symbol">▦</span>我的插件<span id="nav-count" class="nav-count">—</span></button>
+      <button class="nav-item" data-page="discover"><span class="nav-symbol">◇</span>发现插件</button>
+      <button class="nav-item" data-page="wa"><span class="nav-symbol">◉</span>WA 灵感库<span class="mini">FA</span></button>
+      <button class="nav-item" data-page="translate"><span class="nav-symbol">文</span>汉化工坊</button>
+    </nav>
+    <div class="sidebar-note"><span class="note-orbit">✧</span><strong>为无限服，慢慢打磨。</strong><p>把好用的插件、中文说明和你的配置习惯，放在一起。</p><span class="muted">个人本地版 · 0.1.1</span></div>
+    <button class="nav-item settings-button" id="open-settings"><span class="nav-symbol">⚙</span>连接与设置<span id="connection-dot" class="live-dot"></span></button>
+    <div class="local-label"><span class="live-dot"></span>仅在这台电脑上运行</div>
+  </aside>
+  <div class="main-shell">
+    <header class="topbar"><div class="breadcrumb">游戏空间<span>/</span><strong id="breadcrumb">我的插件</strong></div><div class="top-actions"><span class="target-tag">FOREVER</span><span class="version-label" id="build-label">客户端待识别</span><button id="refresh" class="icon-button" aria-label="刷新本地插件">↻</button></div></header>
+    <main id="main" aria-live="polite"><div class="loading">正在打开你的插件工坊…</div></main>
+    <footer><span>FOR THE NEXT ADVENTURE.</span><span>Windows / macOS<span class="footer-separator">·</span>本地文件由你掌控</span></footer>
+  </div>
+  <dialog id="settings-dialog"><form id="settings-form" class="dialog-body"><div class="dialog-heading"><div><div class="eyebrow">WORKSPACE SETTINGS</div><h2>连接与设置</h2></div><button type="button" class="icon-button close-dialog" aria-label="关闭">×</button></div><p class="muted">选择无限服目录。API 密钥可选，仅保存在本次运行的内存中。</p><label>游戏目录<input id="game-path" name="game_path" placeholder="例如 D:\World of Warcraft\_forever_" autocomplete="off"></label><small>也可填写该分支的 Interface/AddOns；不会读取 WTF。</small><div class="form-divider"></div><label>CurseForge API 密钥 <span class="optional">可选</span><input id="cf-key" type="password" placeholder="留空保留现有连接" autocomplete="off"></label><p class="field-note">需你自己获批的第三方 API 密钥。没有密钥仍可使用本地推荐库、官网搜索与 ZIP 导入。</p><label>OpenAI API 密钥 <span class="optional">可选</span><input id="ai-key" type="password" placeholder="留空保留现有连接" autocomplete="off"></label><label>AI 模型 ID<input id="ai-model" placeholder="填写你有权限使用的模型 ID" autocomplete="off"></label><p class="field-note">点击 AI 翻译时，仅将你输入的文字发往 OpenAI API，可能产生 API 费用。也可以免费导出任务，交给当前 Codex 处理。</p><div id="settings-status" class="muted"></div><div class="dialog-actions"><button type="button" class="button secondary close-dialog">取消</button><button type="submit" class="button primary">保存设置</button></div></form></dialog>
+  <dialog id="action-dialog"><div class="dialog-body" id="action-content"></div></dialog>
+  <div id="toasts" role="status" aria-live="polite"></div>
+</body>
+</html>

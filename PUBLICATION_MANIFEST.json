@@ -1,0 +1,33 @@
+{
+  "version": "0.1.1",
+  "scope": "manager-source-only",
+  "excludes": [
+    "private history",
+    "runtime state",
+    "WTF",
+    "addons",
+    "vendor archives"
+  ],
+  "files": {
+    ".gitignore": "1b6ee793f3847b40a3cd86d594a7e1b9f201ac1bc498e16d4a7ca0bccfa9fb95",
+    "COPYING.md": "d4102aebbc5e29bbc6f97fdb850b39bec34f1b516a46fb6f7c7dccb444c0f441",
+    "README.md": "85be002ceca689599ec8d69b5fcd7d6a0f45366bf8da9f701a31f0f11d59667e",
+    "THIRD_PARTY_NOTICES.md": "3219ea284a76b8ac74c9f33359e27071b5d83c6d34faaa314bbf4c42e1a9ad47",
+    "USAGE.md": "9ae34226dad9271a41a012b66310d954883dd807659fc2a913b72121260184ec",
+    "docs/.nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "docs/index.html": "849341b31c9344fbf78d0a678ddda30013ad4e7b304fe2957627d4ad2d6bdc42",
+    "local-manager/README.md": "9ae34226dad9271a41a012b66310d954883dd807659fc2a913b72121260184ec",
+    "local-manager/core.py": "ca6363ce997e4a68b97f437be68d3cb3924340e249e7ae3681cccf32d22d2ec4",
+    "local-manager/providers.py": "49bdd3ae7a53524f071d54d773a28afc57e9d78949b1bd0f80cad125ec416075",
+    "local-manager/server.py": "065fe5c892a9197468099401fadfda05f99c938d679a7d8a5a96b827e013166a",
+    "local-manager/web/app.js": "cacfd4e1c2b11ac34e0e16f89ffc9a2f00e5319eb91c20cc587d1a2bf24c62b4",
+    "local-manager/web/index.html": "acf73a6408f4512d9366cde597691b0d4cadc2079d7731a2b233be7745310c6e",
+    "local-manager/web/style.css": "bb96e3113f656c3e337429bebcbfc71b3a66de032c356b8fb2c873fe978ff2e9",
+    "tests/test_manager_core.py": "fd313f465e79ef49f9d13cffd188877c21bf9ba2702ee2b7a75f5f5828af252a",
+    "tests/test_manager_http.py": "f76d71c1a991682ef80e467373729a5b8c15e9010e9523d1b558176ef95f3e3f",
+    "tests/test_manager_providers.py": "f3e6c1a6b78d9d4fe7ac8ad2361006a214c7453483987e88d06cedfa10d56b21",
+    "tests/test_manager_startup.py": "0e91c4349900261506c4a49148e72a160309dbc871a75ee97906b4dd5cd8faaf",
+    "启动插件工坊-Mac.command": "95d9e2545d53b14a96d4b2345cee0516be58a6db1f1c55dae2da28a69780107d",
+    "启动插件工坊-Windows.cmd": "f096156a5a8b7323e311f582e3c3da78c3e22adfc2f729c6215896a18db881d9"
+  }
+}

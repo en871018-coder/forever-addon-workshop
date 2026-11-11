@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#121518">
+  <meta name="description" content="Forever Addon Workshop is a local Python and browser addon manager for WoW Forever. Inspect, review and back up addon installations on your own computer.">
+  <title>Forever Addon Workshop — local addon management</title>
+  <style>
+    :root {
+      --bg: #121518;
+      --panel: #1a1e22;
+      --panel-soft: #171b1f;
+      --text: #eeece6;
+      --muted: #a6aeb6;
+      --gold: #e0c18b;
+      --gold-soft: #333026;
+      --line: #343a40;
+      --green: #aec9b1;
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 26px; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; }
+    a { color: var(--gold); text-underline-offset: 4px; }
+    a:hover { color: #f5dcaf; }
+    a:focus-visible { outline: 2px solid var(--gold); outline-offset: 6px; border-radius: 3px; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { font-size: clamp(42px, 6.6vw, 76px); font-weight: 650; line-height: 1.08; letter-spacing: -.055em; margin-bottom: 27px; }
+    h2 { font-size: clamp(27px, 3.4vw, 38px); line-height: 1.25; font-weight: 600; letter-spacing: -.025em; margin-bottom: 17px; }
+    h3 { font-size: 19px; line-height: 1.4; font-weight: 600; margin-bottom: 11px; }
+    p { margin-bottom: 17px; }
+    code { font: .88em/1.5 ui-monospace, SFMono-Regular, Consolas, monospace; background: #111619; border: 1px solid var(--line); padding: 2px 6px; border-radius: 5px; overflow-wrap: anywhere; }
+    .wrap { width: min(1120px, calc(100% - 64px)); margin-inline: auto; }
+    .skip { position: absolute; top: -70px; left: 20px; background: var(--gold); color: var(--bg); padding: 10px 17px; z-index: 2; }
+    .skip:focus { top: 12px; }
+    .site-header { border-bottom: 1px solid var(--line); }
+    .header-inner { min-height: 94px; display: flex; align-items: center; justify-content: space-between; gap: 25px; }
+    .brand { display: flex; align-items: center; gap: 13px; color: var(--text); text-decoration: none; line-height: 1.25; }
+    .monogram { width: 42px; height: 47px; display: grid; place-items: center; border: 1px solid #8b7956; border-radius: 12px 12px 16px 16px; color: var(--gold); font: italic 31px Georgia, serif; background: #28271f; }
+    .brand strong { font-size: 15px; font-weight: 600; letter-spacing: .04em; }
+    .brand small { display: block; color: var(--muted); font-size: 12px; margin-top: 5px; letter-spacing: .08em; }
+    nav { display: flex; align-items: center; gap: 26px; font-size: 13px; }
+    nav a { color: var(--muted); text-decoration: none; }
+    nav a:last-child { color: var(--gold); }
+    .hero { padding-block: 83px 66px; display: grid; grid-template-columns: 1.25fr 1fr; align-items: center; gap: 66px; }
+    .eyebrow { color: var(--gold); font-size: 11px; font-weight: 650; letter-spacing: .16em; text-transform: uppercase; margin-bottom: 23px; }
+    .hero h1 span { color: var(--gold); }
+    .lead { font-size: 19px; line-height: 1.7; color: #bdc3c9; max-width: 620px; }
+    .actions { display: flex; gap: 12px; flex-wrap: wrap; margin-block: 28px 24px; }
+    .button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 47px; padding: 11px 20px; font-size: 14px; font-weight: 600; text-decoration: none; border: 1px solid #625740; border-radius: 8px; color: var(--text); background: #242822; }
+    .button.primary { color: #1d1c18; background: var(--gold); border-color: var(--gold); }
+    .button:hover { background: #34382f; color: #fff7e4; }
+    .button.primary:hover { background: #f2d5a2; color: #1d1c18; }
+    .metadata { display: flex; flex-wrap: wrap; gap: 9px; font-size: 11px; color: var(--muted); }
+    .metadata span { border: 1px solid var(--line); border-radius: 5px; padding: 4px 9px; }
+    .workflow-card { border: 1px solid #514a3b; border-radius: var(--radius); background: linear-gradient(150deg, #252922 0%, #1b2024 45%, #181c20 100%); padding: 28px; box-shadow: 0 22px 60px #0003; }
+    .workflow-title { display: flex; align-items: center; justify-content: space-between; padding-bottom: 20px; margin-bottom: 24px; border-bottom: 1px solid #404438; font-size: 12px; color: var(--muted); }
+    .version { font: 11px ui-monospace, SFMono-Regular, Consolas, monospace; color: var(--gold); }
+    .workflow-step { display: flex; gap: 15px; align-items: flex-start; }
+    .workflow-step + .workflow-step { margin-top: 24px; }
+    .step-number { width: 29px; height: 29px; border: 1px solid #6b634b; border-radius: 50%; display: grid; place-items: center; flex: 0 0 auto; font: 11px ui-monospace, SFMono-Regular, Consolas, monospace; color: var(--gold); }
+    .workflow-step strong { display: block; font-size: 16px; font-weight: 550; margin-bottom: 4px; }
+    .workflow-step p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
+    .workflow-note { margin: 26px 0 0; padding-top: 20px; border-top: 1px solid var(--line); color: var(--green); font-size: 12px; }
+    .intro-cn { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 25px 0; color: var(--muted); font-size: 14px; }
+    .intro-cn p { max-width: 970px; margin: 0; }
+    section { padding-block: 64px; }
+    section + section { border-top: 1px solid var(--line); }
+    .section-intro { max-width: 720px; margin-bottom: 30px; color: var(--muted); }
+    .feature-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .feature { background: var(--panel-soft); border: 1px solid var(--line); border-radius: 13px; padding: 27px; }
+    .feature-index { font: 11px ui-monospace, SFMono-Regular, Consolas, monospace; color: var(--gold); display: block; margin-bottom: 18px; }
+    .feature p { color: var(--muted); font-size: 14px; margin-bottom: 0; }
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+    .split p, .split li { color: var(--muted); font-size: 14px; }
+    .split ul, .split ol { padding-left: 21px; margin: 0; }
+    .split li + li { margin-top: 11px; }
+    .api-panel { background: var(--panel); border: 1px solid #514a3b; border-radius: var(--radius); padding: 35px; }
+    .api-panel .eyebrow { margin-bottom: 15px; }
+    .api-panel .split { gap: 38px; }
+    .status-note { margin-top: 27px; padding-top: 22px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+    .status-note strong { color: var(--text); font-weight: 550; }
+    .details-list { margin: 0; display: grid; grid-template-columns: 155px 1fr; gap: 13px 20px; font-size: 14px; }
+    .details-list dt { color: var(--text); font-weight: 550; }
+    .details-list dd { margin: 0; color: var(--muted); }
+    .disclosure { color: var(--muted); font-size: 13px; margin: 27px 0 0; }
+    .site-footer { border-top: 1px solid var(--line); padding-block: 29px; color: var(--muted); font-size: 12px; }
+    .footer-inner { display: flex; align-items: flex-start; justify-content: space-between; gap: 30px; }
+    .footer-inner p { margin: 0; max-width: 700px; }
+    .footer-inner a { white-space: nowrap; }
+    @media (max-width: 900px) {
+      .hero { gap: 32px; padding-top: 57px; }
+      .workflow-card { padding: 23px; }
+      .split { gap: 30px; }
+      nav { gap: 17px; }
+    }
+    @media (max-width: 700px) {
+      .wrap { width: min(100% - 36px, 540px); }
+      .header-inner { min-height: 100px; flex-wrap: wrap; justify-content: flex-start; gap: 16px; padding-block: 20px; }
+      nav { width: 100%; justify-content: space-between; font-size: 12px; }
+      .hero { grid-template-columns: 1fr; padding-block: 46px 37px; gap: 32px; }
+      h1 { font-size: clamp(43px, 11vw, 64px); }
+      .lead { font-size: 17px; }
+      .feature-grid, .split { grid-template-columns: 1fr; gap: 20px; }
+      .feature { padding: 23px; }
+      section { padding-block: 43px; }
+      .api-panel { padding: 24px; }
+      .details-list { grid-template-columns: 1fr; gap: 4px; }
+      .details-list dd { margin-bottom: 13px; }
+      .footer-inner { flex-direction: column; gap: 15px; }
+      .actions .button { flex: 1 1 auto; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <a class="brand" href="#main" aria-label="Forever Addon Workshop home">
+        <span class="monogram" aria-hidden="true">F</span>
+        <span><strong>FOREVER ADDON WORKSHOP</strong><small lang="zh-CN">Forever 插件工坊</small></span>
+      </a>
+      <nav aria-label="Main navigation">
+        <a href="#features">Features</a>
+        <a href="#api">API usage</a>
+        <a href="#start">Get started</a>
+        <a href="https://github.com/en871018-coder/forever-addon-workshop">GitHub ↗</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main" class="wrap">
+    <div class="hero">
+      <div>
+        <div class="eyebrow">A personal workshop for WoW Forever</div>
+        <h1>Your addons.<br><span>A clearer plan.</span></h1>
+        <p class="lead">Inspect your addons, review each installation and keep a backup. A local Python app with a browser interface, built for your own computer.</p>
+        <div class="actions">
+          <a class="button primary" href="https://github.com/en871018-coder/forever-addon-workshop/archive/refs/heads/main.zip">Download source ZIP <span aria-hidden="true">↓</span></a>
+          <a class="button" href="https://github.com/en871018-coder/forever-addon-workshop">View repository <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="metadata" aria-label="Project requirements">
+          <span>Prototype · v0.1.1</span><span>Python 3.9+</span><span>Windows / macOS</span>
+        </div>
+      </div>
+      <aside class="workflow-card" aria-label="Installation workflow">
+        <div class="workflow-title"><span>BEFORE THE NEXT ADVENTURE</span><span class="version">0.1.1</span></div>
+        <div class="workflow-step"><span class="step-number" aria-hidden="true">01</span><div><strong>Inspect</strong><p>Find the Forever branch and read addon metadata.</p></div></div>
+        <div class="workflow-step"><span class="step-number" aria-hidden="true">02</span><div><strong>Review</strong><p>See the target, version, folders and ZIP digest before confirming.</p></div></div>
+        <div class="workflow-step"><span class="step-number" aria-hidden="true">03</span><div><strong>Back up &amp; install</strong><p>Close the game, confirm the plan and preserve replaced folders.</p></div></div>
+        <p class="workflow-note">A TOC declaration is evidence to inspect. In-game compatibility still needs testing.</p>
+      </aside>
+    </div>
+    <div class="intro-cn" lang="zh-CN">
+      <p>Forever 插件工坊是运行在自己电脑上的插件管理器：用浏览器查看插件、审阅安装计划、备份被替换的目录，也可以整理 WA 字符串与导出汉化任务。界面面向中文用户；本页介绍公开的管理器源码与 API 使用意图。Windows 实机和 CurseForge 获批密钥的真实调用仍待验收。</p>
+    </div>
+    <section id="features" aria-labelledby="features-title">
+      <div class="eyebrow">What the app does</div>
+      <h2 id="features-title">A few useful tools, in one place.</h2>
+      <p class="section-intro">The manager runs outside the game. Its service listens on <code>127.0.0.1</code>; the browser is its interface. External services are contacted only for features you choose to use.</p>
+      <div class="feature-grid">
+        <article class="feature"><span class="feature-index">01 / LOCAL INSPECTION</span><h3>Know what is installed.</h3><p>Read addon titles, versions and TOC declarations. Validate the <code>wowf</code> product branch and check for Interface <code>16001</code>. The manager does not read or modify <code>WTF</code>.</p></article>
+        <article class="feature"><span class="feature-index">02 / REVIEWED INSTALLATION</span><h3>Confirm before replacing files.</h3><p>Inspect a ZIP, its required dependencies and target folders. Installation requires an explicit confirmation with the game stopped. Replaced folders are backed up; a failed installation attempts to restore the previous folders.</p></article>
+        <article class="feature"><span class="feature-index">03 / AURA TEXT LIBRARY</span><h3>Keep the string and its source.</h3><p>Search Wago's public Forever listings or open the website. Save public import text and its source locally. The manager does not decode or execute Lua, import an Aura into the game, or guarantee a work's compatibility.</p></article>
+        <article class="feature"><span class="feature-index">04 / TRANSLATION JOBS</span><h3>Make the next instruction readable.</h3><p>Export a translation job, or explicitly request an AI translation using your own API key. AI API charges are separate. The output is a dictionary: adapting it to an addon's language interface and testing it in game remain separate steps.</p></article>
+      </div>
+    </section>
+    <section id="api" aria-labelledby="api-title">
+      <div class="api-panel">
+        <div class="eyebrow">CurseForge integration · intended API usage</div>
+        <h2 id="api-title">Official access, with authors' choices respected.</h2>
+        <div class="split">
+          <div>
+            <p>The integration is designed to use the official CurseForge REST API with an approved third-party API key. There is no bundled or shared key. With no configured key, the app provides website search links and local ZIP import.</p>
+            <p>Planned API use is on demand, in response to a user's action:</p>
+            <ul>
+              <li>Search World of Warcraft addons in the Forever category.</li>
+              <li>Read project, version and file metadata to review a selected release.</li>
+              <li>Download a selected file only when the provider supplies a permitted download URL and the author's distribution settings allow it.</li>
+            </ul>
+          </div>
+          <div>
+            <p>If third-party distribution is disabled or a download URL is unavailable, the user is directed to the author's official page. The manager does not guess restricted CDN URLs or bypass paid content, account access or distribution restrictions.</p>
+            <p>Search responses are not persistently cached. Provider metadata and an Interface declaration do not certify compatibility with a particular client build.</p>
+            <p><a href="https://docs.curseforge.com/rest-api/">CurseForge REST API documentation ↗</a></p>
+          </div>
+        </div>
+        <div class="status-note"><strong>Current status:</strong> integration code is present, but live use with an approved CurseForge API key has not been verified. This page does not claim API approval or official endorsement.</div>
+      </div>
+    </section>
+    <section id="start" aria-labelledby="start-title">
+      <div class="split">
+        <div>
+          <div class="eyebrow">Run it on your computer</div>
+          <h2 id="start-title">Python. A browser.<br>Your own game directory.</h2>
+          <p>Download and fully extract the source ZIP. Python 3.9 or newer is required; the manager uses the standard library. No pip packages, Node installation or cloud deployment are required.</p>
+          <ol>
+            <li>Run the Windows <code>.cmd</code> or macOS <code>.command</code> launcher in the repository root.</li>
+            <li>Open the local address printed by the launcher, including its session fragment.</li>
+            <li>Select the existing <code>_forever_</code> branch or its <code>Interface/AddOns</code> directory.</li>
+            <li>Review an installation plan, then close the game before confirming. Restart the game fully after adding a new addon folder.</li>
+          </ol>
+          <div class="actions"><a class="button" href="https://github.com/en871018-coder/forever-addon-workshop/blob/main/USAGE.md">Read the setup guide ↗</a></div>
+        </div>
+        <div>
+          <div class="eyebrow">Project details</div>
+          <dl class="details-list">
+            <dt>Release</dt><dd>0.1.1 · personal prototype</dd>
+            <dt>Target</dt><dd>WoW Forever · <code>wowf</code> · Interface <code>16001</code></dd>
+            <dt>Platforms</dt><dd>macOS workflows checked locally. Windows launch and game testing remain unverified.</dd>
+            <dt>Credentials</dt><dd>Optional service keys are held in process memory, not embedded in the public source or written to app settings.</dd>
+            <dt>Public scope</dt><dd>Manager code, tests, launchers, catalogue metadata and third-party notices. No upstream addons, BoF translation data, game settings, runtime state or private project archives are included.</dd>
+            <dt>Rights</dt><dd>All rights reserved for original code; see <a href="https://github.com/en871018-coder/forever-addon-workshop/blob/main/COPYING.md">COPYING.md</a>. Public source availability does not grant an open-source licence. <a href="https://github.com/en871018-coder/forever-addon-workshop/blob/main/THIRD_PARTY_NOTICES.md">Third-party notices</a> apply separately.</dd>
+          </dl>
+        </div>
+      </div>
+      <p class="disclosure" lang="zh-CN">公开仓库用于说明项目与 API 申请所需信息。原始代码暂保留全部权利，尚未选择开源许可；第三方内容按各自许可处理。没有附带上游插件、BoF 中文数据、WTF、API 密钥或运行记录。新插件和汉化字典仍需在对应客户端验收。</p>
+    </section>
+  </main>
+  <footer class="site-footer">
+    <div class="wrap footer-inner">
+      <p>© 2026 Forever Addon Workshop contributors. An independent personal project, not affiliated with or endorsed by Blizzard Entertainment, CurseForge, Overwolf or Wago. World of Warcraft and provider names belong to their respective owners.</p>
+      <a href="https://github.com/en871018-coder/forever-addon-workshop/issues">Project issues ↗</a>
+    </div>
+  </footer>
+</body>
+</html>

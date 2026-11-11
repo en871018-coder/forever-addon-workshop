@@ -1,0 +1,8 @@
+.DS_Store
+.env
+.env.*
+.manager-state/
+**/__pycache__/
+WTF/
+references/vendor/
+*.zip
